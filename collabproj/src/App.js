@@ -1,9 +1,10 @@
+import Navbar from "./Components/Navbar";
 
 
 function App() {
   return (
    <div>
-    <h1 style={{textAlign:"center",color:"red"}}>Welcome</h1>
+    <Navbar/>
     </div>
   );
 }
