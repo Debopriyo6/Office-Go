@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className="sidebar">
         <Link className="active" to="/login">
           Login
-        </Link>
+        </Link>  
         <Link to="/">My Pass</Link>
         <Link to="/">My Rides</Link>
         <Link to="/">Wallets</Link>
