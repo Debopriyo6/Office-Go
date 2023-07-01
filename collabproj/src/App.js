@@ -6,9 +6,10 @@ import Login from "./Components/Login&Register/Login";
 
 function App() {
   const [login, setLogin] = useState(false);
+
   return (
     <globalcontext.Provider value={{ login, setLogin }}>
-      <Navbar />
+      {/*<Navbar />*/}
       <Routes>
         <Route path="/login" element={<Login />} />
       </Routes>
