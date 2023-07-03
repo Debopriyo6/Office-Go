@@ -11,7 +11,7 @@ function App() {
     <globalcontext.Provider value={{ login, setLogin }}>
       <Navbar />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<Login />} />
       </Routes>
     </globalcontext.Provider>
   );
