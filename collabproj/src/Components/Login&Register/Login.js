@@ -11,7 +11,9 @@ const Login = () => {
   const [pass, setPassword] = useState("");
   const [etouch, setEtouch] = useState(false);
   const [ptouch, setPtouch] = useState(false);
-  const { setLogin } = useContext(globalcontext);
+  const [ntouch, setNtouch] = useState(false);
+  const { setLogin,store,setStore } = useContext(globalcontext);
+  const[formisValid,setformisValid]=useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const isLogin = searchParams.get("mode") === "login";
@@ -22,7 +24,21 @@ const Login = () => {
     setUser(userObject);
   };
 
-  useEffect(() => {}, []);
+  const passcheck=pass.length>=8;
+  let namecheck=name.length>=3;
+
+  let mailvalidate= etouch &&!email;
+  let passvalidate= ptouch && !passcheck;
+  let namevalidate=ntouch && !namecheck;
+
+  useEffect(() => {
+    if(passcheck && email && namecheck){
+    setformisValid(true)
+    }
+    else{
+      setformisValid(false);
+    }
+  }, [passcheck,email,namecheck]);
 
   useEffect(() => {
     /*global google*/
@@ -40,6 +56,14 @@ const Login = () => {
     google.accounts.id.prompt();
   }, []);
 
+  useEffect(()=>{
+   localStorage.setItem('Users',JSON.stringify(store))
+  },[store])
+
+  const nameBlurHnadler=()=>{
+  setNtouch(true);
+  }
+
   const emailBlurHandler = () => {
     setEtouch(true);
   };
@@ -47,13 +71,31 @@ const Login = () => {
   const passwordBlurHandler = () => {
     setPtouch(true);
   };
+  
+  const obj={
+    name:name,
+    email:email,
+    password:pass,
+  }
+
+
 
   const sumbitHandler = (e) => {
     e.preventDefault();
+    if(!passcheck && !email){
+      return;
+    }
+    setName("");
     setEmail("");
     setPassword("");
-
+    setEtouch(true);
+    setPtouch(true);
+    setNtouch(true);
     setLogin(true);
+    setEtouch(false);
+    setPtouch(false);
+    setNtouch(false)
+    setStore([obj,...store])
   };
 
   return (
@@ -73,9 +115,13 @@ const Login = () => {
                 type="text"
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}
+                onBlur={nameBlurHnadler}
                 value={name}
               />
             )}
+            <div>
+              {namevalidate && <p style={{color:"red"}}>name must be 3 character long</p>}
+            </div>
             <input
               className={`p-2 rounded-xl border ${isLogin ? "mt-8" : "w-full"}`}
               type="email"
@@ -84,6 +130,9 @@ const Login = () => {
               onBlur={emailBlurHandler}
               value={email}
             />
+            <div>
+              {mailvalidate && <p style={{color:"red"}}>please enter yor mail</p>}
+            </div>
             <input
               className="p-2 rounded-xl border w-full"
               type="password"
@@ -92,10 +141,14 @@ const Login = () => {
               onBlur={passwordBlurHandler}
               value={pass}
             />
+            <div>
+              {passvalidate && <p style={{color:"red"}}>password must be atleast 8 character long</p>}
+            </div>
 
             <button
               className="bg-[#0CBBC0] rounded-xl text-white py-2 hover:scale-105 duration-300"
               type="submit"
+              disabled={!formisValid}
             >
               {isLogin ? "Login" : "Register"}
             </button>
