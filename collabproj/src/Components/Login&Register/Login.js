@@ -97,7 +97,7 @@ const Login = () => {
               className="bg-[#0CBBC0] rounded-xl text-white py-2 hover:scale-105 duration-300"
               type="submit"
             >
-              Login
+              {isLogin ? "Login" : "Register"}
             </button>
           </form>
 
@@ -109,11 +109,11 @@ const Login = () => {
           <div id="googleDiv"></div>
           <div className="mt-3 text-xs flex justify-between items-center text-[#0CBBC0]">
             <p>Don't have an account?</p>
-            <button className="py-2 px-5 bg-white border rounded-xl hover:scale-112 duration-300">
-              <Link to={`/auth?mode=${isLogin ? "register" : "login"}`}>
+            <Link to={`/auth?mode=${isLogin ? "register" : "login"}`}>
+              <button className="py-2 px-5 bg-white border rounded-xl hover:scale-112 duration-300">
                 {isLogin ? "Register" : "Login"}
-              </Link>
-            </button>
+              </button>
+            </Link>
           </div>
         </div>
         <div className="md:block hidden w-1/2">
